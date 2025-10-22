@@ -20,9 +20,55 @@ int rangeSum(Node *root, int L, int R) {
 	//Should add node->key to the sum?
 	//Return the sum!
 
+	if(!root){
+		return 0;
+	}
+
+	else{
+		int sum = 0;
+		if(root->key < L){
+			sum += rangeSum(root->right, L, R);
+		}
+
+		else if(root->key > R){
+			sum += rangeSum(root->left, L, R);
+		}
+
+		else {
+			sum += rangeSum(root->left, L, R) + rangeSum(root->right, L, R) + root->key;
+		}
+
+		return sum;
+	}
+
 	return 0;
 }
     
+int height(Node *root){
+	if(!root){
+		return 0;
+	}
+
+	else if (root->right && root->left){
+		int rightTree = height(root->right);
+		int leftTree = height(root->left);
+		if(rightTree > leftTree){
+			return rightTree+1;
+		}
+		else{
+			return leftTree+1;
+		}
+	}
+
+	else if(root->right){
+		return height(root->right) + 1;
+	}
+
+	else{
+		return height(root->left) + 1;
+	}
+}
+
 bool isBalanced(Node *root) {
 	//Get the heights of the left and right subtrees - helper func?
 	//Determine if this node is balanced! If not ret false!
@@ -31,6 +77,20 @@ bool isBalanced(Node *root) {
 	//Are they balanced?
 
 	//If all nodes are balanced return true!
+
+	if(!root){
+		return true;
+	}
+
+	else{
+		int rightHeight = height(root->right);
+		int leftHeight = height(root->left);
+
+
+
+		return isBalanced(root->right) && isBalanced(root->left) && 
+		((rightHeight + 1 == leftHeight) || (leftHeight + 1 == rightHeight) || (leftHeight == rightHeight));
+	}
 }
 
 /*
@@ -56,6 +116,25 @@ return its level order traversal as:
 */
 vector<vector<int>> levelOrder(Node* root) {
 	vector<vector<int>> results;
+
+	// results.push_back({root->key});
+
+	// if(!root->left && !root->right){
+	// 	return results;
+	// }
+
+	// else if(root->left){
+	// 	return levelOrder(root->left);
+	// }
+
+	// else if(root->right){
+	// 	return levelOrder(root->right);
+	// }
+
+	// else{
+	// 	results = levelOrder(root->left);
+	// }
+
     return results;
 }
 
